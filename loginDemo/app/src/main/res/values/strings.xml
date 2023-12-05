@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">kotlin Demo One</string>
+    <string name="logo">Logo</string>
+    <string name="the_tolet">The Tolet</string>
+    <string name="find_house">Find House</string>
+    <string name="login">Login</string>
+</resources>
