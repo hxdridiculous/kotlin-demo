@@ -1,7 +1,9 @@
 package com.example.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +28,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.login.ui.theme.BlueGray
 import com.example.login.ui.theme.LightBlueWhite
+
 
 // 这个注解表示这个函数是一个可组合项，可以用来创建和组合界面组件
 @Composable
@@ -40,7 +46,7 @@ fun LoginScreen() {
 
             TopSection()
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             // Column 是一个可组合项，用来创建一个垂直排列的布局，可以放置多个子组件。Modifier 是一个参数，用来修饰或扩充可组合项的大小、布局、行为和外观
             Column(
@@ -49,42 +55,104 @@ fun LoginScreen() {
                     // 这是一个 Modifier 类的函数，用来设置可组合项填充最大的可用空间
                     .fillMaxSize()
                     // 这是一个 Modifier 类的函数，用来设置可组合项的内边距，这里是设置水平方向上的内边距为 30.dp，dp 是一个单位，表示密度无关像素
-                    .padding(horizontal = 30.dp)
+                    .padding(horizontal = 20.dp)
             ) {
-                // 这是一个子组件，用来创建一个登录界面的文本输入框，它有三个参数，分别是 label，trailing 和 modifier。label 是用来设置文本输入框的标签，也就是提示用户输入什么内容的文字，这里是设置为 "Email"；trailing 是用来设置文本输入框的尾部图标，也就是在文本输入框的右侧显示的文字，这里是设置为 "Fongot"；modifier 是用来修饰或扩充可组合项的大小、布局、行为和外观，这里是设置文本输入框填充最大的宽度
-                LoginTextField(label = "Email", trailing = "Fongot", modifier = Modifier.fillMaxWidth())
-                // 这是一个子组件，用来创建一个空白的间隔，它有一个参数，就是 modifier。这里是设置间隔的宽度为 15.dp
-                Spacer(modifier = Modifier.width(15.dp))
-                // 这是另一个子组件，用来创建一个登录界面的文本输入框，它的参数和上面的类似，只是 label 设置为 "Password"，trailing 设置为空字符串
-                LoginTextField(label = "Password", trailing = "", modifier = Modifier.fillMaxWidth())
-                // 这是另一个子组件，用来创建一个空白的间隔，它的参数和上面的类似
-                Spacer(modifier = Modifier.width(15.dp))
-                Button(
-                    // 这是一个子组件，用来创建一个按钮，它有四个参数，分别是 modifier，onClick，colors 和 content。modifier 是用来修饰或扩充可组合项的大小、布局、行为和外观，这里是设置按钮填充最大的宽度，高度为 40.dp
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp),
-                    // 这是一个参数，用来处理按钮的点击事件，这里是设置为空的 lambda 表达式，表示不做任何处理
-                    onClick = { /*TODO*/ },
-                    // 这是一个参数，用来设置按钮的颜色方案，这里是使用 ButtonDefaults.buttonColors() 函数，表示使用默认的按钮的颜色方案，并将 contentColor 参数设置为 LightBlueWhite，表示按钮的内容颜色为浅蓝白色
-                    colors = ButtonDefaults.buttonColors(contentColor = LightBlueWhite)
-                ) {
-                    // 这是一个参数，用来创建一个 Text 可组合项，作为按钮的内容。Text 可组合项的 text 参数是 "Login"，style 参数是 MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium)，表示使用 Material 主题中的 displaySmall 字体样式，并复制一份，将字体的粗细设置为 Medium
-                    Text(
-                        text = "Login",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium)
-                    )
-                }
-            }
+                LoginSection()
 
+                Spacer(modifier = Modifier.height(30.dp))
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        fontSize = 14.sp,
+                        text = "其他方式：",//(id = R.string.or_login_with),
+                        // style 是一个参数，用来设置文本的样式，这里是设置为副标题样式
+                        style = MaterialTheme.typography.headlineLarge.copy(color = Color(0xFF647488))
+                        // color 是一个参数，用来设置文本的颜色，这里是设置为 LightBlueWhite，表示使用浅蓝白色
+
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SocialMediaLogIn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(onClick = { paintLog() }),
+                            icon = R.drawable.facebook,
+                            text = "Facebook"
+                        ) {
+
+                        }
+                        Spacer(modifier = Modifier.width(30.dp))
+
+                        SocialMediaLogIn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(onClick = { paintLog() }),
+                            icon = R.drawable.google,
+                            text = "Google"
+                        ) {
+                            // 这是一个参数，用来处理按钮的点击事件，这里是设置为空的 lambda 表达式，表示不做任何处理
+                        }
+
+                    }
+                }
+
+            }
         }
     }
 
 }
 
+fun paintLog() {
+    println("paintLog")
+}
+
+@Composable
+private fun LoginSection() {
+    // 这是一个子组件，用来创建一个登录界面的文本输入框，它有三个参数，分别是 label，trailing 和 modifier。label 是用来设置文本输入框的标签，也就是提示用户输入什么内容的文字，这里是设置为 "Email"；trailing 是用来设置文本输入框的尾部图标，也就是在文本输入框的右侧显示的文字，这里是设置为 "Fongot"；modifier 是用来修饰或扩充可组合项的大小、布局、行为和外观，这里是设置文本输入框填充最大的宽度
+    LoginTextField(label = "Email", trailing = "Fongot", modifier = Modifier.fillMaxWidth())
+    // 这是一个子组件，用来创建一个空白的间隔，它有一个参数，就是 modifier。这里是设置间隔的宽度为 15.dp
+    Spacer(modifier = Modifier.height(10.dp))
+    // 这是另一个子组件，用来创建一个登录界面的文本输入框，它的参数和上面的类似，只是 label 设置为 "Password"，trailing 设置为空字符串
+    LoginTextField(label = "Password", trailing = "", modifier = Modifier.fillMaxWidth())
+    // 这是另一个子组件，用来创建一个空白的间隔，它的参数和上面的类似
+    Spacer(modifier = Modifier.height(20.dp))
+    Button(
+        // 这是一个子组件，用来创建一个按钮，它有四个参数，分别是 modifier，onClick，colors 和 content。modifier 是用来修饰或扩充可组合项的大小、布局、行为和外观，这里是设置按钮填充最大的宽度，高度为 40.dp
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        // 这是一个参数，用来处理按钮的点击事件，这里是设置为空的 lambda 表达式，表示不做任何处理
+        onClick = {
+            //打印一下11111
+            println("11111")
+        },
+        // 这是一个参数，用来设置按钮的颜色方案，这里是使用 ButtonDefaults.buttonColors() 函数，表示使用默认的按钮的颜色方案，并将 contentColor 参数设置为 LightBlueWhite，表示按钮的内容颜色为浅蓝白色
+        colors = ButtonDefaults.buttonColors(contentColor = LightBlueWhite),
+        //设置文字在button中水平和垂直方向上都居中
+
+//        horizontalArrangement = Arrangement.Center,
+//        verticalAlignment = Alignment.CenterVertically
+
+    ) {
+        // 这是一个参数，用来创建一个 Text 可组合项，作为按钮的内容。Text 可组合项的 text 参数是 "Login"，style 参数是 MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium)，表示使用 Material 主题中的 displaySmall 字体样式，并复制一份，将字体的粗细设置为 Medium
+        Text(
+            text = "Login",
+            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
 @Composable
 private fun TopSection() {
-    val uiColor = if (isSystemInDarkTheme()) LightBlueWhite else Color.Black
+    val uiColor = if (isSystemInDarkTheme()) LightBlueWhite else BlueGray
     // Box 是一个可组合项，用来创建一个盒子，可以放置一个或多个子组件，并设置它们的对齐方式。
     // contentAlignment 是一个参数，用来设置子组件的对齐方式，这里是居中对齐
     Box(contentAlignment = Alignment.TopCenter) {
@@ -100,9 +168,10 @@ private fun TopSection() {
             contentScale = ContentScale.FillBounds
         )
         Row(
-            modifier = Modifier.padding(top = 80.dp),
+            modifier = Modifier.padding(top = 50.dp),
             // verticalAlignment 是一个参数，用来设置子组件的垂直对齐方式，这里是居中对齐
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Icon(
                 modifier = Modifier.size(42.dp),
@@ -136,7 +205,7 @@ private fun TopSection() {
             // modifier 是一个参数，用来修饰或扩充可组合项的大小、布局、行为和外观。这里是设置文本的位置，距离顶部 10dp 的位置
             // align 是一个参数，用来设置文本的对齐方式，这里是设置为顶部居中对齐
             modifier = Modifier
-                .padding(bottom = 10.dp)
+                .padding(bottom = 30.dp)
                 .align(Alignment.BottomCenter),
             text = stringResource(id = R.string.login),
             // style 是一个参数，用来设置文本的样式，这里是设置为标题样式
@@ -151,6 +220,6 @@ private fun TopSection() {
 @Composable
 @Preview
 fun GreetingPreview() {
-    TopSection()
+    LoginScreen()
 }
 

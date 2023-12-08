@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import com.example.kotlindemoone.ui.theme.LightBlueWhite
+import androidx.compose.ui.unit.sp
+import com.example.login.ui.theme.BlueGray
+import com.example.login.ui.theme.LightBlueWhite
 
 // 这个注解表示这个函数是一个可组合项，可以用来创建和组合界面组件
 @Composable
@@ -25,7 +27,7 @@ fun LoginTextField(
 ) {
 
     // 这是一个变量，用来根据系统的主题模式来设置界面的颜色，如果是暗黑模式，就用浅蓝白色，否则就用黑色
-    val uiColor = if (isSystemInDarkTheme()) LightBlueWhite else Color.Black
+    val uiColor = if (isSystemInDarkTheme()) LightBlueWhite else BlueGray
 
     // 这是一个注解，用来表示这个函数使用了一个实验性的 Material 3 的 API，即 TextField，它可能会在未来发生变化或被移除。如果不加这个注解，就会出现一个错误提示
     @OptIn(ExperimentalMaterial3Api::class)
@@ -38,16 +40,18 @@ fun LoginTextField(
         onValueChange = {},
         label = {
             // 设置 TextField 的 label 参数，用来创建一个 Text 可组合项，作为文本输入框的标签。Text 可组合项的 text 参数是 label 参数，style 参数是 MaterialTheme.typography.headlineLarge，表示使用 Material 主题中的 headlineLarge 字体样式，color 参数是 uiColor 变量，表示使用界面的颜色
-            Text(text = label, style = MaterialTheme.typography.headlineLarge, color = uiColor)
+            Text(text = label, style = MaterialTheme.typography.headlineLarge, color = uiColor, fontSize = 20.sp)
         },
         // 设置 TextField 的 colors 参数，用来设置文本输入框的颜色方案。这里是使用 TextFieldDefaults.outlinedTextFieldColors() 函数，表示使用默认的带边框的文本输入框的颜色方案
         colors = TextFieldDefaults.outlinedTextFieldColors(),
+        // 设置 TextField 的
         trailingIcon = {
+            // 设置 TextField 的 trailingIcon 参数，用来创建一个 Text 可组合项，作为文本输入框的尾部图标。Text 可组合项的 text 参数是 trailing 参数，style 参数是 MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium)，表示使用 Material 主题中的 displaySmall 字体样式，并复制一份，将字体的粗细设置为 Medium，color 参数是 uiColor 变量，表示使用界面的颜色
             Text(
                 text = trailing,
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium),
-                color = uiColor
-            // 设置 TextField 的 trailingIcon 参数，用来创建一个 Text 可组合项，作为文本输入框的尾部图标。Text 可组合项的 text 参数是 trailing 参数，style 参数是 MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium)，表示使用 Material 主题中的 displaySmall 字体样式，并复制一份，将字体的粗细设置为 Medium，color 参数是 uiColor 变量，表示使用界面的颜色
+                color = uiColor,
+                fontSize = 20.sp
             )
         }
     )
